@@ -54,7 +54,7 @@ class RoomController extends Controller
     public function show($id)
     {
         try {
-            $room = DB::select("SELECT * FROM rooms WHERE id = ?", [$id]);
+            $room = DB::select("SELECT * FROM rooms WHERE hotel_id = ?", [$id]);
             if (!$room) {
                 return response()->json(['message' => 'Habitación no encontrada'], 404);
             }
