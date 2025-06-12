@@ -38,6 +38,22 @@ class RoomAvailabilityController extends Controller
         }
     }
 
+    public function getByRoom($roomId)
+    {
+        try {
+            $availability = DB::select("SELECT * FROM room_availability WHERE room_id = ?", [$roomId]);
+
+            if (empty($availability)) {
+                return response()->json(['message' => 'Disponibilidad no encontrada.'], 404);
+            }
+
+            return response()->json($availability[0]);
+        } catch (Throwable $e) {
+            Log::error("Error al obtener disponibilidad de la habitación" . $e->getMessage());
+            return response()->json(['error' => 'No se pudo obtener la disponibilidad.'], 500);
+        }
+    }
+
     // Crear nueva disponibilidad
     public function store(Request $request)
     {

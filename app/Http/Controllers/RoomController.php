@@ -65,6 +65,20 @@ class RoomController extends Controller
         }
     }
 
+    public function getByHotel($hotelId)
+    {
+        try {
+            $room = DB::select("SELECT * FROM rooms WHERE hotel_id = ?", [$hotelId]);
+            if (!$room) {
+                return response()->json(['message' => 'Habitaciónes no encontrada para el hotel '+$hotelId], 404);
+            }
+            return response()->json($room[0]);
+        } catch (\Exception $e) {
+            Log::error("Error al obtener la habitación: " . $e->getMessage());
+            return response()->json(['error' => 'Error al obtener habitaciones del hotel'], 500);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [

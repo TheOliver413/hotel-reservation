@@ -38,6 +38,22 @@ class SeasonRateController extends Controller
         }
     }
 
+    public function getByHotel($hotelId)
+    {
+        try {
+            $rate = DB::select("SELECT * FROM season_rates WHERE hotel_id = ?", [$hotelId]);
+
+            if (empty($rate)) {
+                return response()->json(['message' => 'Error al obtener tarifas del hotel.'], 404);
+            }
+
+            return response()->json($rate[0]);
+        } catch (Throwable $e) {
+            Log::error("Error al obtener tarifas del hotel: " . $e->getMessage());
+            return response()->json(['error' => 'No se pudo obtener la tarifa.'], 500);
+        }
+    }
+
     // Crear una nueva tarifa
     public function store(Request $request)
     {
