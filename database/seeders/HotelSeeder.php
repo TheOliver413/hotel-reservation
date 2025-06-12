@@ -2,22 +2,22 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Hotel;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class HotelSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run()
+    public function run(): void
     {
-        DB::table('hotels')->insert([
+        $hotels = [
             ['name' => 'Hotel Barranquilla', 'city' => 'Barranquilla'],
-            ['name' => 'Hotel Cali', 'city' => 'Cali'],
-            ['name' => 'Hotel Cartagena', 'city' => 'Cartagena'],
-            ['name' => 'Hotel Bogotá', 'city' => 'Bogotá'],
-        ]);
+            ['name' => 'Hotel Cali',         'city' => 'Cali'],
+            ['name' => 'Hotel Cartagena',    'city' => 'Cartagena'],
+            ['name' => 'Hotel Bogotá',       'city' => 'Bogotá'],
+        ];
+
+        foreach ($hotels as $hotel) {
+            Hotel::create($hotel);
+        }
     }
 }

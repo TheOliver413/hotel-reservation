@@ -2,39 +2,40 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Hotel;
+use App\Models\Room;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class RoomSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run()
+    public function run(): void
     {
-        $hotels = DB::table('hotels')->get()->keyBy('city');
-        $roomTypes = DB::table('room_types')->get()->keyBy('name');
-
-        $rooms = [
-            ['hotel' => 'Barranquilla', 'type' => 'estandar', 'total' => 30, 'max_people' => 4],
-            ['hotel' => 'Barranquilla', 'type' => 'premium', 'total' => 3, 'max_people' => 4],
-            ['hotel' => 'Cali', 'type' => 'premium', 'total' => 20, 'max_people' => 6],
-            ['hotel' => 'Cali', 'type' => 'vip', 'total' => 2, 'max_people' => 6],
-            ['hotel' => 'Cartagena', 'type' => 'estandar', 'total' => 10, 'max_people' => 8],
-            ['hotel' => 'Cartagena', 'type' => 'premium', 'total' => 1, 'max_people' => 8],
-            ['hotel' => 'Bogotá', 'type' => 'estandar', 'total' => 20, 'max_people' => 6],
-            ['hotel' => 'Bogotá', 'type' => 'premium', 'total' => 20, 'max_people' => 6],
-            ['hotel' => 'Bogotá', 'type' => 'vip', 'total' => 2, 'max_people' => 6],
+        $roomData = [
+            'Hotel Barranquilla' => [
+                ['type' => 'estandar', 'total_rooms' => 30, 'max_people' => 4],
+                ['type' => 'premium',  'total_rooms' => 3,  'max_people' => 4],
+            ],
+            'Hotel Cali' => [
+                ['type' => 'premium', 'total_rooms' => 20, 'max_people' => 6],
+                ['type' => 'vip',     'total_rooms' => 2,  'max_people' => 6],
+            ],
+            'Hotel Cartagena' => [
+                ['type' => 'estandar', 'total_rooms' => 10, 'max_people' => 8],
+                ['type' => 'premium',  'total_rooms' => 1,  'max_people' => 8],
+            ],
+            'Hotel Bogotá' => [
+                ['type' => 'estandar', 'total_rooms' => 20, 'max_people' => 6],
+                ['type' => 'premium',  'total_rooms' => 20, 'max_people' => 6],
+                ['type' => 'vip',      'total_rooms' => 2,  'max_people' => 6],
+            ],
         ];
 
-        foreach ($rooms as $r) {
-            DB::table('rooms')->insert([
-                'hotel_id' => $hotels[$r['hotel']]->id,
-                'room_type_id' => $roomTypes[$r['type']]->id,
-                'quantity' => $r['total'],
-                'max_people' => $r['max_people'],
-            ]);
+        foreach ($roomData as $hotelName => $rooms) {
+            $hotel = Hotel::where('name', $hotelName)->first();
+
+            foreach ($rooms as $room) {
+                $hotel->rooms()->create($room);
+            }
         }
     }
 }
