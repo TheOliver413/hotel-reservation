@@ -72,7 +72,7 @@ class RoomController extends Controller
             if (!$room) {
                 return response()->json(['message' => 'Habitaciónes no encontrada para el hotel '+$hotelId], 404);
             }
-            return response()->json($room[0]);
+            return response()->json($room);
         } catch (\Exception $e) {
             Log::error("Error al obtener la habitación: " . $e->getMessage());
             return response()->json(['error' => 'Error al obtener habitaciones del hotel'], 500);

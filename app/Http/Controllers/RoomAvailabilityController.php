@@ -41,7 +41,7 @@ class RoomAvailabilityController extends Controller
     public function getByRoom($roomId)
     {
         try {
-            $availability = DB::select("SELECT * FROM room_availability WHERE room_id = ?", [$roomId]);
+            $availability = DB::select("SELECT * FROM room_availabilities WHERE room_id = ?", [$roomId]);
 
             if (empty($availability)) {
                 return response()->json(['message' => 'Disponibilidad no encontrada.'], 404);
